@@ -1,19 +1,16 @@
 <?php
 
-namespace Filament\Tables\Columns;
+namespace Filament\Infolists\Components;
 
 use Closure;
-use Throwable;
-use Illuminate\Support\Arr;
+use Filament\SpatieLaravelMongoMediaLibraryPlugin\Collections\AllMediaCollections;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Waseet\MediaLibrary\MediaCollections\Models\Media;
-use Waseet\MediaLibrary\MediaCollections\Models\MongoMedia;
+use Illuminate\Support\Arr;
 use Waseet\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
-use Filament\SpatieLaravelMediaLibraryPlugin\Collections\AllMediaCollections;
+use Waseet\MediaLibrary\MediaCollections\Models\MongoMedia;
+use Throwable;
 
-class SpatieMediaLibraryImageColumn extends ImageColumn
+class SpatieMongoMediaLibraryImageEntry extends ImageEntry
 {
     protected string | AllMediaCollections | Closure | null $collection = null;
 
@@ -23,21 +20,21 @@ class SpatieMediaLibraryImageColumn extends ImageColumn
     {
         parent::setUp();
 
-        $this->defaultImageUrl(function (SpatieMediaLibraryImageColumn $column, Model $record): ?string {
-            if ($column->hasRelationship($record)) {
-                $record = $column->getRelationshipResults($record);
+        $this->defaultImageUrl(function (SpatieMongoMediaLibraryImageEntry $component, Model $record): ?string {
+            if ($component->hasRelationship($record)) {
+                $record = $component->getRelationshipResults($record);
             }
 
             $records = Arr::wrap($record);
 
-            $collection = $column->getCollection();
+            $collection = $component->getCollection();
 
             if (! is_string($collection)) {
                 $collection = 'default';
             }
 
             foreach ($records as $record) {
-                $url = $record->getFallbackMediaUrl($collection, $column->getConversion() ?? '');
+                $url = $record->getFallbackMediaUrl($collection, $component->getConversion() ?? '');
 
                 if (blank($url)) {
                     continue;
@@ -84,6 +81,10 @@ class SpatieMediaLibraryImageColumn extends ImageColumn
     public function getImageUrl(?string $state = null): ?string
     {
         $record = $this->getRecord();
+
+        if (! $record) {
+            return null;
+        }
 
         if ($this->hasRelationship($record)) {
             $record = $this->getRelationshipResults($record);
@@ -153,23 +154,5 @@ class SpatieMediaLibraryImageColumn extends ImageColumn
         }
 
         return array_unique($state);
-    }
-
-    public function applyEagerLoading(Builder | Relation $query): Builder | Relation
-    {
-        if ($this->isHidden()) {
-            return $query;
-        }
-
-        /** @phpstan-ignore-next-line */
-        $modifyMediaQuery = fn (Builder | Relation $query) => $query->ordered();
-
-        if ($this->hasRelationship($query->getModel())) {
-            return $query->with([
-                "{$this->getRelationshipName()}.media" => $modifyMediaQuery,
-            ]);
-        }
-
-        return $query->with(['media' => $modifyMediaQuery]);
     }
 }

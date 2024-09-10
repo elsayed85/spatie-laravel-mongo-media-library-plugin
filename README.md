@@ -29,9 +29,9 @@ You must also [prepare your Eloquent model](https://spatie.be/docs/laravel-media
 You may use the field in the same way as the [original file upload](https://filamentphp.com/docs/forms/fields/file-upload) field:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 
-SpatieMediaLibraryFileUpload::make('avatar')
+SpatieMongoMediaLibraryFileUpload::make('avatar')
 ```
 
 The media library file upload supports all the customization options of the [original file upload component](https://filamentphp.com/docs/forms/fields/file-upload).
@@ -43,9 +43,9 @@ The media library file upload supports all the customization options of the [ori
 Optionally, you may pass a [`collection()`](https://spatie.be/docs/laravel-medialibrary/working-with-media-collections/simple-media-collections) allows you to group files into categories:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 
-SpatieMediaLibraryFileUpload::make('avatar')
+SpatieMongoMediaLibraryFileUpload::make('avatar')
     ->collection('avatars')
 ```
 
@@ -71,9 +71,9 @@ In addition to the behavior of the normal file upload, Spatie's Media Library al
 To enable this behavior, use the `reorderable()` method:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 
-SpatieMediaLibraryFileUpload::make('attachments')
+SpatieMongoMediaLibraryFileUpload::make('attachments')
     ->multiple()
     ->reorderable()
 ```
@@ -85,9 +85,9 @@ You may now drag and drop files into order.
 You may pass in [custom properties](https://spatie.be/docs/laravel-medialibrary/advanced-usage/using-custom-properties) when uploading files using the `customProperties()` method:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 
-SpatieMediaLibraryFileUpload::make('attachments')
+SpatieMongoMediaLibraryFileUpload::make('attachments')
     ->multiple()
     ->customProperties(['zip_filename_prefix' => 'folder/subfolder/'])
 ```
@@ -97,9 +97,9 @@ SpatieMediaLibraryFileUpload::make('attachments')
 You may pass in custom headers when uploading files using the `customHeaders()` method:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 
-SpatieMediaLibraryFileUpload::make('attachments')
+SpatieMongoMediaLibraryFileUpload::make('attachments')
     ->multiple()
     ->customHeaders(['CacheControl' => 'max-age=86400'])
 ```
@@ -109,9 +109,9 @@ SpatieMediaLibraryFileUpload::make('attachments')
 You may [generate responsive images](https://spatie.be/docs/laravel-medialibrary/responsive-images/getting-started-with-responsive-images) when the files are uploaded using the `responsiveImages()` method:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 
-SpatieMediaLibraryFileUpload::make('attachments')
+SpatieMongoMediaLibraryFileUpload::make('attachments')
     ->multiple()
     ->responsiveImages()
 ```
@@ -121,9 +121,9 @@ SpatieMediaLibraryFileUpload::make('attachments')
 You may also specify a `conversion()` to load the file from showing it in the form, if present:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 
-SpatieMediaLibraryFileUpload::make('attachments')
+SpatieMongoMediaLibraryFileUpload::make('attachments')
     ->conversion('thumb')
 ```
 
@@ -132,9 +132,9 @@ SpatieMediaLibraryFileUpload::make('attachments')
 You can store your conversions and responsive images on a disk other than the one where you save the original file. Pass the name of the disk where you want conversion to be saved to the `conversionsDisk()` method:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 
-SpatieMediaLibraryFileUpload::make('attachments')
+SpatieMongoMediaLibraryFileUpload::make('attachments')
     ->conversionsDisk('s3')
 ```
 
@@ -143,9 +143,9 @@ SpatieMediaLibraryFileUpload::make('attachments')
 You may pass in [manipulations](https://spatie.be/docs/laravel-medialibrary/advanced-usage/storing-media-specific-manipulations#breadcrumb) that are run when files are uploaded using the `manipulations()` method:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 
-SpatieMediaLibraryFileUpload::make('attachments')
+SpatieMongoMediaLibraryFileUpload::make('attachments')
     ->multiple()
     ->manipulations([
         'thumb' => ['orientation' => '90'],
@@ -159,11 +159,11 @@ It's possible to target a file upload component to only handle a certain subset 
 For example, you could scope the field to only handle media that has certain custom properties:
 
 ```php
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMongoMediaLibraryFileUpload;
 use Filament\Forms\Get;
 use Illuminate\Support\Collection;
 
-SpatieMediaLibraryFileUpload::make('images')
+SpatieMongoMediaLibraryFileUpload::make('images')
     ->customProperties(fn (Get $get): array => [
         'gallery_id' => $get('gallery_id'),
     ])
@@ -180,9 +180,9 @@ SpatieMediaLibraryFileUpload::make('images')
 To use the media library image column:
 
 ```php
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\SpatieMongoMediaLibraryImageColumn;
 
-SpatieMediaLibraryImageColumn::make('avatar')
+SpatieMongoMediaLibraryImageColumn::make('avatar')
 ```
 
 The media library image column supports all the customization options of the [original image column](https://filamentphp.com/docs/tables/columns/image).
@@ -192,9 +192,9 @@ The media library image column supports all the customization options of the [or
 Optionally, you may pass a `collection()`:
 
 ```php
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\SpatieMongoMediaLibraryImageColumn;
 
-SpatieMediaLibraryImageColumn::make('avatar')
+SpatieMongoMediaLibraryImageColumn::make('avatar')
     ->collection('avatars')
 ```
 
@@ -203,9 +203,9 @@ The [collection](https://spatie.be/docs/laravel-medialibrary/working-with-media-
 By default, only media without a collection (using the `default` collection) will be shown. If you want to show media from all collections, you can use the `allCollections()` method:
 
 ```php
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\SpatieMongoMediaLibraryImageColumn;
 
-SpatieMediaLibraryImageColumn::make('avatar')
+SpatieMongoMediaLibraryImageColumn::make('avatar')
     ->allCollections()
 ```
 
@@ -214,9 +214,9 @@ SpatieMediaLibraryImageColumn::make('avatar')
 You may also specify a `conversion()` to load the file from showing it in the table, if present:
 
 ```php
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\SpatieMongoMediaLibraryImageColumn;
 
-SpatieMediaLibraryImageColumn::make('avatar')
+SpatieMongoMediaLibraryImageColumn::make('avatar')
     ->conversion('thumb')
 ```
 
@@ -225,9 +225,9 @@ SpatieMediaLibraryImageColumn::make('avatar')
 To use the media library image entry:
 
 ```php
-use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
+use Filament\Infolists\Components\SpatieMongoMediaLibraryImageEntry;
 
-SpatieMediaLibraryImageEntry::make('avatar')
+SpatieMongoMediaLibraryImageEntry::make('avatar')
 ```
 
 The media library image entry supports all the customization options of the [original image entry](https://filamentphp.com/docs/infolists/entries/image).
@@ -237,9 +237,9 @@ The media library image entry supports all the customization options of the [ori
 Optionally, you may pass a `collection()`:
 
 ```php
-use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
+use Filament\Infolists\Components\SpatieMongoMediaLibraryImageEntry;
 
-SpatieMediaLibraryImageEntry::make('avatar')
+SpatieMongoMediaLibraryImageEntry::make('avatar')
     ->collection('avatars')
 ```
 
@@ -248,9 +248,9 @@ The [collection](https://spatie.be/docs/laravel-medialibrary/working-with-media-
 By default, only media without a collection (using the `default` collection) will be shown. If you want to show media from all collections, you can use the `allCollections()` method:
 
 ```php
-use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
+use Filament\Infolists\Components\SpatieMongoMediaLibraryImageEntry;
 
-SpatieMediaLibraryImageEntry::make('avatar')
+SpatieMongoMediaLibraryImageEntry::make('avatar')
     ->allCollections()
 ```
 
@@ -259,8 +259,8 @@ SpatieMediaLibraryImageEntry::make('avatar')
 You may also specify a `conversion()` to load the file from showing it in the infolist, if present:
 
 ```php
-use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
+use Filament\Infolists\Components\SpatieMongoMediaLibraryImageEntry;
 
-SpatieMediaLibraryImageEntry::make('avatar')
+SpatieMongoMediaLibraryImageEntry::make('avatar')
     ->conversion('thumb')
 ```

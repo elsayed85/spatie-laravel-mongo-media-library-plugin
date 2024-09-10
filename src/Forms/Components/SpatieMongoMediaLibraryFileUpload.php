@@ -13,7 +13,7 @@ use Waseet\MediaLibrary\MediaCollections\MediaCollection;
 use Waseet\MediaLibrary\MediaCollections\Models\MongoMedia;
 use Throwable;
 
-class SpatieMediaLibraryFileUpload extends FileUpload
+class SpatieMongoMediaLibraryFileUpload extends FileUpload
 {
     protected string | Closure | null $collection = null;
 
@@ -51,7 +51,7 @@ class SpatieMediaLibraryFileUpload extends FileUpload
     {
         parent::setUp();
 
-        $this->loadStateFromRelationshipsUsing(static function (SpatieMediaLibraryFileUpload $component, HasMedia $record): void {
+        $this->loadStateFromRelationshipsUsing(static function (SpatieMongoMediaLibraryFileUpload $component, HasMedia $record): void {
             /** @var Model&HasMedia $record */
             $media = $record->load('media')->getMedia($component->getCollection() ?? 'default')
                 ->when(
@@ -84,7 +84,7 @@ class SpatieMediaLibraryFileUpload extends FileUpload
 
         $this->dehydrated(false);
 
-        $this->getUploadedFileUsing(static function (SpatieMediaLibraryFileUpload $component, string $file): ?array {
+        $this->getUploadedFileUsing(static function (SpatieMongoMediaLibraryFileUpload $component, string $file): ?array {
             if (! $component->getRecord()) {
                 return null;
             }
@@ -121,12 +121,12 @@ class SpatieMediaLibraryFileUpload extends FileUpload
             ];
         });
 
-        $this->saveRelationshipsUsing(static function (SpatieMediaLibraryFileUpload $component) {
+        $this->saveRelationshipsUsing(static function (SpatieMongoMediaLibraryFileUpload $component) {
             $component->deleteAbandonedFiles();
             $component->saveUploadedFiles();
         });
 
-        $this->saveUploadedFileUsing(static function (SpatieMediaLibraryFileUpload $component, TemporaryUploadedFile $file, ?Model $record): ?string {
+        $this->saveUploadedFileUsing(static function (SpatieMongoMediaLibraryFileUpload $component, TemporaryUploadedFile $file, ?Model $record): ?string {
             if (! method_exists($record, 'addMediaFromString')) {
                 return $file;
             }
@@ -158,7 +158,7 @@ class SpatieMediaLibraryFileUpload extends FileUpload
             return $media->getAttributeValue('uuid');
         });
 
-        $this->reorderUploadedFilesUsing(static function (SpatieMediaLibraryFileUpload $component, ?Model $record, array $state): array {
+        $this->reorderUploadedFilesUsing(static function (SpatieMongoMediaLibraryFileUpload $component, ?Model $record, array $state): array {
             $uuids = array_filter(array_values($state));
 
             $mediaClass = ($record && method_exists($record, 'getMediaModel')) ? $record->getMediaModel() : null;
