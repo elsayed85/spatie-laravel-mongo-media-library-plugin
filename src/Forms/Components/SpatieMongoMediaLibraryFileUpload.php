@@ -62,7 +62,7 @@ class SpatieMongoMediaLibraryFileUpload extends FileUpload
                     ! $component->isMultiple(),
                     fn (Collection $media): Collection => $media->take(1),
                 )
-                ->mapWithKeys(function (MongoMongoMedia $media): array {
+                ->mapWithKeys(function (MongoMedia $media): array {
                     $uuid = $media->getAttributeValue('uuid');
 
                     return [$uuid => $uuid];
